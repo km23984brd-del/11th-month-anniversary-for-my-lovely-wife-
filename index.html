@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 11th Month, Priyadarshini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            --text-color: #590d22;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Canvas for Confetti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Container Styles */
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            transition: all 0.5s ease;
+            border: 2px solid white;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-weight: bold;
+            color: var(--primary);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
+            background: #d90429;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Choice Cards */
+        .choice-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .choice-card {
+            background: white;
+            border: 2px solid var(--secondary);
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .choice-card:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Sections Visibility */
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .content-reveal {
+            animation: pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Mobile Tweaks */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .container { padding: 30px 15px; }
+            .btn { width: 100%; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- STAGE 1: The Intro -->
+    <div id="stage-1" class="container fade-in">
+        <h1>Happy 11th Month</h1>
+        <p>To the queen of my heart, <br><strong>Priyadarshini</strong>.</p>
+        <p>We have spent 11 beautiful months building our own little world. I love you more every single day.</p>
+        
+        <button class="btn" onclick="goToStage2()">Click Here Baby 🥰</button>
+    </div>
+
+    <!-- STAGE 2: The Choice -->
+    <div id="stage-2" class="container hidden">
+        <h2>I have something for you...</h2>
+        <p>Pick what makes you happy right now!</p>
+        
+        <div class="choice-container">
+            <div class="choice-card" onclick="showSurprise('memories')">
+                💖 Our Memories
+            </div>
+            <div class="choice-card" onclick="showSurprise('love')">
+                💌 A Love Letter
+            </div>
+            <div class="choice-card" onclick="showSurprise('gift')">
+                🎁 A Virtual Gift
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 3: The Surprise -->
+    <div id="stage-3" class="container hidden">
+        <div id="surprise-content" class="content-reveal">
+            <!-- Content injected via JS -->
+        </div>
+        <br>
+        <button class="btn" onclick="location.reload()">Start Over 🔄</button>
+    </div>
+
+    <div class="signature">Forever Yours, <br>Riyu Baby 🥰</div>
+
+    <script>
+        // --- Confetti Logic (Lightweight) ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createParticle() {
+            const colors = ['#ff4d6d', '#ff8fa3', '#ffccd5', '#ffb3c1', '#fff'];
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 10 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speed: Math.random() * 3 + 2,
+                wind: Math.random() * 2 - 1,
+                angle: Math.random() * 360
+            };
+        }
+
+        function updateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((p, index) => {
+                p.y += p.speed;
+                p.x += p.wind;
+                p.angle += 2;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+
+                if (p.y > canvas.height) {
+                    particles[index] = createParticle();
+                }
+            });
+
+            requestAnimationFrame(updateConfetti);
+        }
+
+        function startConfetti() {
+            for (let i = 0; i < 150; i++) {
+                particles.push(createParticle());
+            }
+            updateConfetti();
+        }
+
+        function explodeConfetti() {
+            // Burst effect
+            for (let i = 0; i < 200; i++) {
+                let p = createParticle();
+                p.x = canvas.width / 2;
+                p.y = canvas.height / 2;
+                p.speed = Math.random() * 10 + 5;
+                p.wind = Math.random() * 10 - 5;
+                particles.push(p);
+            }
+        }
+
+        // Start initial confetti
+        startConfetti();
+
+        // --- App Logic ---
+
+        function goToStage2() {
+            // Hide Stage 1
+            document.getElementById('stage-1').classList.add('hidden');
+            // Show Stage 2
+            const stage2 = document.getElementById('stage-2');
+            stage2.classList.remove('hidden');
+            stage2.classList.add('fade-in');
+            
+            // Trigger a confetti burst
+            explodeConfetti();
+        }
+
+        function showSurprise(type) {
+            document.getElementById('stage-2').classList.add('hidden');
+            const stage3 = document.getElementById('stage-3');
+            const contentDiv = document.getElementById('surprise-content');
+            
+            stage3.classList.remove('hidden');
+            stage3.classList.add('fade-in');
+            
+            explodeConfetti(); // Big surprise burst
+
+            let html = '';
+
+            if (type === 'memories') {
+                html = `
+                    <h2>Our Journey 💑</h2>
+                    <p style="font-size: 4rem;">📸 🎥 🍿</p>
+                    <p>Every photo we take, every movie we watch together, and every laugh we share is a treasure. I can't wait to make 1000 more memories with you.</p>
+                `;
+            } else if (type === 'love') {
+                html = `
+                    <h2>My Heart 💌</h2>
+                    <p>My dearest Priyadarshini,</p>
+                    <p style="text-align: left; background: #fff; padding: 15px; border-radius: 10px; font-style: italic;">
+                        "You are my today and all of my tomorrows. When I look into your eyes, I see my whole future. Happy 11th Month, my love."
+                    </p>
+                    <p style="font-size: 3rem;">❤️</p>
+                `;
+            } else if (type === 'gift') {
+                html = `
+                    <h2>A Promise 🎁</h2>
+                    <p style="font-size: 4rem;">💍 ✈️ 🍽️</p>
+                    <p>This is a voucher for: <strong>One Date of your choice</strong> (Valid anywhere, anytime, no arguments allowed!).</p>
+                    <p>I promise to keep making you smile.</p>
+                `;
+            }
+
+            contentDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
